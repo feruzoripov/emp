@@ -15,7 +15,7 @@ module Transactions
         customer_phone: customer_phone,
         amount: amount,
         merchant: merchant
-      )
+      ).reload
     end
   end
 end
