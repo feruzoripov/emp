@@ -8,12 +8,20 @@ module Transactions
     end
 
     def run
+      transaction = Transaction::Reversal.new(merchant: merchant)
+
       if valid_to_reverse?
-        Transaction::Reversal.create!(parent_transaction: authorized_transaction)
-        authorized_transaction.reversed!
+        transaction.parent_transaction = authorized_transaction
+        transaction.customer_email = authorized_transaction.customer_email
+        transaction.customer_phone = authorized_transaction.customer_phone
       else
-        Transaction::Charge.create!(status: :error)
+        transaction.status = :error
       end
+
+      transaction.save!
+      authorized_transaction.reversed!
+
+      transaction.reload.uuid
     end
 
     private
@@ -23,7 +31,7 @@ module Transactions
     end
 
     def authorized_transaction
-      @authorized_transaction ||= Transaction::Authorized.find(uuid)
+      @authorized_transaction ||= Transaction::Authorize.find_by_uuid(uuid)
     end
   end
 end

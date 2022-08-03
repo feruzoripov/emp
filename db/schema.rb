@@ -17,9 +17,9 @@ ActiveRecord::Schema.define(version: 2022_08_03_125042) do
 
   create_table "transactions", force: :cascade do |t|
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
-    t.decimal "amount", default: "0.0"
+    t.decimal "amount"
     t.integer "status", default: 0
-    t.string "customer_email", null: false
+    t.string "customer_email"
     t.string "customer_phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

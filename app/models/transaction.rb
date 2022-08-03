@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class Transaction < ApplicationRecord
-  validates :customer_email, presence: true
-  validates :customer_email, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :status, presence: true
   validates :type, presence: true
+  validates :customer_email, presence: true, unless: :not_error
+  validates :customer_email, format: { with: URI::MailTo::EMAIL_REGEXP }, unless: :not_error
 
   belongs_to :merchant, class_name: 'User', foreign_key: 'user_id'
 
@@ -19,4 +18,10 @@ class Transaction < ApplicationRecord
     refunded: 2,
     error: 3
   }
+
+  private
+
+  def not_error
+    error?
+  end
 end

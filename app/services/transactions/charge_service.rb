@@ -9,17 +9,24 @@ module Transactions
     end
 
     def run
+      transaction = Transaction::Charge.new(amount: amount, merchant: merchant)
+
       if valid_to_charge?
-        Transaction::Charge.create!(parent_transaction: authorized_transaction, amount: amount)
+        transaction.parent_transaction = authorized_transaction
+        transaction.customer_email = authorized_transaction.customer_email
+        transaction.customer_phone = authorized_transaction.customer_phone
       else
-        Transaction::Charge.create!(amount: amount, status: :error)
+        transaction.status = :error
       end
+      transaction.save!
+
+      transaction.reload.uuid
     end
 
     private
 
     def authorized_transaction
-      @authorized_transaction ||= Transaction::Authorized.find(uuid)
+      @authorized_transaction ||= Transaction::Authorize.find_by_uuid(uuid)
     end
 
     def valid_to_charge?

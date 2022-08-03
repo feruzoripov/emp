@@ -9,18 +9,26 @@ module Transactions
     end
 
     def run
+      transaction = Transaction::Refund.new(amount: amount, merchant: merchant)
+
       if valid_to_refund?
-        Transaction::Refund.create!(parent_transaction: charged_transaction, amount: amount)
-        charged_transaction.refunded!
+        transaction.parent_transaction = charged_transaction
+        transaction.customer_email = charged_transaction.customer_email
+        transaction.customer_phone = charged_transaction.customer_phone
       else
-        Transaction::Refund.create!(amount: amount, status: :error)
+        transaction.status = :error
       end
+
+      transaction.save!
+      charged_transaction.refunded!
+
+      transaction.reload.uuid
     end
 
     private
 
     def charged_transaction
-      @charged_transaction ||= Transaction::Charged.find(uuid)
+      @charged_transaction ||= Transaction::Charge.find_by_uuid(uuid)
     end
 
     def valid_to_refund?

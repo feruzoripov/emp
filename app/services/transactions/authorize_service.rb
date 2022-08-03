@@ -10,12 +10,14 @@ module Transactions
     end
 
     def run
-      Transaction::Authorize.create!(
+      transaction = Transaction::Authorize.create!(
         customer_email: customer_email,
         customer_phone: customer_phone,
         amount: amount,
         merchant: merchant
-      ).reload
+      )
+
+      transaction.reload.uuid
     end
   end
 end
