@@ -7,6 +7,10 @@ class Transaction < ApplicationRecord
 
   belongs_to :user
 
+  has_one :child_transaction, class_name: 'Transaction', foreign_key: 'parent_transaction_id'
+
+  belongs_to :parent_transaction, class_name: 'Transaction', optional: true
+
   enum status: {
     approved: 0,
     reversed: 1,
