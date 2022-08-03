@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Transactions
   class ReverseService < BaseService
-
     def initialize(merchant_id:, uuid:)
       super
       @uuid = uuid
@@ -18,7 +19,7 @@ module Transactions
     private
 
     def valid_to_reverse?
-      authorized_transaction && authorized_transaction.approved?
+      authorized_transaction&.approved?
     end
 
     def authorized_transaction

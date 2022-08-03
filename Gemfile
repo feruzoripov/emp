@@ -28,6 +28,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Use Json Web Token (JWT) for token based authentication
 gem 'jwt'
 
+gem 'rubocop', '~> 1.2', require: false
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 

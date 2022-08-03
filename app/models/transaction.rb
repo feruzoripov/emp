@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Transaction < ApplicationRecord
   validates :customer_email, presence: true
   validates :customer_email, format: { with: URI::MailTo::EMAIL_REGEXP }
