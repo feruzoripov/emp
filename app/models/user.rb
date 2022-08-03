@@ -14,4 +14,6 @@ class User < ApplicationRecord
 
   has_many :transactions
 
+  scope :active, -> { where status: :active }
+
 end

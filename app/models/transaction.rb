@@ -5,7 +5,7 @@ class Transaction < ApplicationRecord
   validates :status, presence: true
   validates :type, presence: true
 
-  belongs_to :user
+  belongs_to :merchant, class_name: 'User', foreign_key: 'user_id'
 
   has_one :child_transaction, class_name: 'Transaction', foreign_key: 'parent_transaction_id'
 
