@@ -12,4 +12,6 @@ class User < ApplicationRecord
     inactive: 1
   }
 
+  has_many :transactions
+
 end

@@ -5,6 +5,8 @@ class Transaction < ApplicationRecord
   validates :status, presence: true
   validates :type, presence: true
 
+  belongs_to :user
+
   enum status: {
     approved: 0,
     reversed: 1,
