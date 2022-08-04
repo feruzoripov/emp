@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get '/charge', to: 'transactions#charge'
       get '/refund', to: 'transactions#refund'
       get '/reversal', to: 'transactions#reversal'
+      post '/del_old', to: 'transactions#delete_old_transactions'
       get '/:uuid', to: 'transactions#show'
     end
 

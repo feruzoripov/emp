@@ -22,6 +22,11 @@ module Admin
       render json: find_transaction, status: :ok
     end
 
+    def delete_old_transactions
+      ClearTransactionsJob.perform_async
+      render json: :ok
+    end
+
     private
 
     def find_transaction
