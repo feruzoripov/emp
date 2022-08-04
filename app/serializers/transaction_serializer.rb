@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransactionSerializer < ActiveModel::Serializer
   attributes :uuid, :type, :customer_email, :customer_phone, :status, :amount, :parent_transaction_uuid, :merchant_id
 

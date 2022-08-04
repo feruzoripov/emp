@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Admin::Transactions", type: :request do
+RSpec.describe 'Admin::Transactions', type: :request do
   let(:user) { create(:user, admin: true) }
 
   let!(:transaction1) { create(:authorize, merchant: user) }
@@ -8,7 +10,7 @@ RSpec.describe "Admin::Transactions", type: :request do
   let!(:transaction3) { create(:refund, merchant: user, parent_transaction: transaction2) }
   let!(:transaction4) { create(:reversal, merchant: user) }
 
-  describe "GET /authorize" do
+  describe 'GET /authorize' do
     context 'unauthorized' do
       it 'returns 401 error' do
         get '/admin/transactions/authorize'
@@ -57,7 +59,7 @@ RSpec.describe "Admin::Transactions", type: :request do
     end
   end
 
-  describe "GET /charge" do
+  describe 'GET /charge' do
     context 'unauthorized' do
       it 'returns 401 error' do
         get '/admin/transactions/charge'
@@ -106,7 +108,7 @@ RSpec.describe "Admin::Transactions", type: :request do
     end
   end
 
-  describe "GET /refund" do
+  describe 'GET /refund' do
     context 'unauthorized' do
       it 'returns 401 error' do
         get '/admin/transactions/refund'
@@ -155,7 +157,7 @@ RSpec.describe "Admin::Transactions", type: :request do
     end
   end
 
-  describe "GET /reversal" do
+  describe 'GET /reversal' do
     let!(:transaction4) { create(:reversal, merchant: user, parent_transaction: transaction1) }
     context 'unauthorized' do
       it 'returns 401 error' do
