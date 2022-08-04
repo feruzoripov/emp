@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class TransactionsController < ApplicationController
+  def index
+    render json: @current_user.transactions, status: :ok
+  end
+
   def authorize
     render json: Transactions::AuthorizeService.new(authorize_params).run, status: :ok
   end

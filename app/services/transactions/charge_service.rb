@@ -35,7 +35,7 @@ module Transactions
     end
 
     def update_merchant_total_transaction_sum
-      merchant.total_transaction_sum += amount
+      merchant.total_transaction_sum += amount.to_f
       merchant.save
     end
   end

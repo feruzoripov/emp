@@ -14,12 +14,12 @@ module Transactions
         transaction.parent_transaction = authorized_transaction
         transaction.customer_email = authorized_transaction.customer_email
         transaction.customer_phone = authorized_transaction.customer_phone
+        authorized_transaction.reversed!
       else
         transaction.status = :error
       end
 
       transaction.save!
-      authorized_transaction.reversed!
 
       transaction.reload.uuid
     end

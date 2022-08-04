@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   post '/auth/login', to: 'authentication#login'
   scope :transactions do
+    get '/', to: 'transactions#index'
     post '/authorize', to: 'transactions#authorize'
     post '/charge', to: 'transactions#charge'
     post '/refund', to: 'transactions#refund'

@@ -16,12 +16,12 @@ module Transactions
         transaction.customer_email = charged_transaction.customer_email
         transaction.customer_phone = charged_transaction.customer_phone
         update_merchant_total_transaction_sum
+        charged_transaction.refunded!
       else
         transaction.status = :error
       end
 
       transaction.save!
-      charged_transaction.refunded!
 
       transaction.reload.uuid
     end
@@ -37,7 +37,7 @@ module Transactions
     end
 
     def update_merchant_total_transaction_sum
-      merchant.total_transaction_sum -= amount
+      merchant.total_transaction_sum -= amount.to_f
       merchant.save
     end
   end
