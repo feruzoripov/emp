@@ -204,4 +204,18 @@ RSpec.describe "Admin::Transactions", type: :request do
       end
     end
   end
+
+  describe 'POST /admin/transactions/del_old' do
+    context 'authorized, admin' do
+      before do
+        post '/auth/login', params: { email: user.email, password: 'password' }
+        @token = response.parsed_body['token']
+      end
+
+      it 'should run sidekiq job to delete old transactions' do
+        expect(ClearTransactionsJob).to receive(:perform_async)
+        post '/admin/transactions/del_old', headers: { 'Authorization': @token }
+      end
+    end
+  end
 end
