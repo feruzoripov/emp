@@ -15,4 +15,14 @@ class User < ApplicationRecord
   }
 
   has_many :transactions
+
+  before_destroy :check_for_transactions
+
+  private
+
+  def check_for_transactions
+    return if transactions.size == 0
+    errors[:base] << 'there are related payments'
+    throw :abort
+  end
 end
