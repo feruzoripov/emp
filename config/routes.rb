@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   post '/auth/login', to: 'authentication#login'
-  post '/transactions/authorize', to: 'transactions#authorize'
-  post '/transactions/charge', to: 'transactions#charge'
-  post '/transactions/refund', to: 'transactions#refund'
-  post '/transactions/reverse', to: 'transactions#reverse'
+  scope :transactions do
+    post '/authorize', to: 'transactions#authorize'
+    post '/charge', to: 'transactions#charge'
+    post '/refund', to: 'transactions#refund'
+    post '/reverse', to: 'transactions#reverse'
+  end
   get '/status', to: 'application#status'
 end
