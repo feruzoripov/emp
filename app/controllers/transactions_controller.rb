@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransactionsController < ApplicationController
   def authorize
     render json: Transactions::AuthorizeService.new(authorize_params).run, status: :ok
@@ -18,7 +20,8 @@ class TransactionsController < ApplicationController
   private
 
   def authorize_params
-    { customer_email: params['customer_email'], customer_phone: params['customer_phone'], amount: params['amount'], merchant_id: @current_user.id }
+    { customer_email: params['customer_email'], customer_phone: params['customer_phone'], amount: params['amount'],
+      merchant_id: @current_user.id }
   end
 
   def charge_params

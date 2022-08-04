@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Admin
   class UsersController < AdminController
-    before_action :set_user, only: [:show, :destroy, :update]
+    before_action :set_user, only: %i[show destroy update]
 
     def index
       render json: User.active, status: :ok

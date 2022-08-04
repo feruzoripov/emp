@@ -21,7 +21,8 @@ class User < ApplicationRecord
   private
 
   def check_for_transactions
-    return if transactions.size == 0
+    return if transactions.size.zero?
+
     errors[:base] << 'there are related payments'
     throw :abort
   end
