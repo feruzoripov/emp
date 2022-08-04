@@ -1,0 +1,7 @@
+class TransactionSerializer < ActiveModel::Serializer
+  attributes :uuid, :type, :customer_email, :customer_phone, :status, :amount, :parent_transaction_uuid
+
+  def parent_transaction_uuid
+    object.parent_transaction.uuid if object.parent_transaction.present?
+  end
+end
