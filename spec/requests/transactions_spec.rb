@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Transactions", type: :request do
-  describe "GET /transactions" do
+RSpec.describe 'Transactions', type: :request do
+  describe 'GET /transactions' do
     context 'withour auth' do
-      it "returns 401 code" do
+      it 'returns 401 code' do
         get '/transactions'
         expect(response).to have_http_status(401)
       end
@@ -26,7 +28,6 @@ RSpec.describe "Transactions", type: :request do
       end
 
       context 'with transactions' do
-
         let(:transaction1) { create(:authorize, merchant: user) }
         let(:transaction2) { create(:charge, merchant: user) }
         let(:transaction3) { create(:refund, merchant: user) }
@@ -47,7 +48,7 @@ RSpec.describe "Transactions", type: :request do
 
   describe 'POST /transactions/authorize' do
     context 'withour auth' do
-      it "returns 401 code" do
+      it 'returns 401 code' do
         post '/transactions/authorize'
         expect(response).to have_http_status(401)
       end
@@ -63,9 +64,9 @@ RSpec.describe "Transactions", type: :request do
 
       context 'invalid params' do
         it 'should raise error with invalid params' do
-          expect {
+          expect do
             post '/transactions/authorize', params: {}, headers: { 'Authorization': @token }
-        }.to raise_error
+          end.to raise_error
         end
       end
 
@@ -82,7 +83,7 @@ RSpec.describe "Transactions", type: :request do
 
   describe 'POST /transactions/charge' do
     context 'withour auth' do
-      it "returns 401 code" do
+      it 'returns 401 code' do
         post '/transactions/charge'
         expect(response).to have_http_status(401)
       end
@@ -98,9 +99,9 @@ RSpec.describe "Transactions", type: :request do
 
       context 'invalid params' do
         it 'should raise error with invalid params' do
-          expect {
+          expect do
             post '/transactions/charge', params: {}, headers: { 'Authorization': @token }
-        }.to raise_error
+          end.to raise_error
         end
 
         let(:params) { { uuid: '', amount: '123' } }
@@ -109,7 +110,7 @@ RSpec.describe "Transactions", type: :request do
           post '/transactions/charge', params: params, headers: { 'Authorization': @token }
           expect(response).to have_http_status(200)
           expect(Transaction::Charge.last.error?).to eq true
-          expect(user.reload.total_transaction_sum).to eq (0)
+          expect(user.reload.total_transaction_sum).to eq(0)
         end
       end
 
@@ -120,7 +121,7 @@ RSpec.describe "Transactions", type: :request do
         it 'returns uuid of created authorized transaction' do
           post '/transactions/charge', params: params, headers: { 'Authorization': @token }
           expect(response).to have_http_status(200)
-          expect(user.reload.total_transaction_sum).to eq (123)
+          expect(user.reload.total_transaction_sum).to eq(123)
         end
       end
     end
@@ -128,7 +129,7 @@ RSpec.describe "Transactions", type: :request do
 
   describe 'POST /transactions/refund' do
     context 'withour auth' do
-      it "returns 401 code" do
+      it 'returns 401 code' do
         post '/transactions/refund'
         expect(response).to have_http_status(401)
       end
@@ -144,9 +145,9 @@ RSpec.describe "Transactions", type: :request do
 
       context 'invalid params' do
         it 'should raise error with invalid params' do
-          expect {
+          expect do
             post '/transactions/refund', params: {}, headers: { 'Authorization': @token }
-        }.to raise_error
+          end.to raise_error
         end
 
         let(:params) { { uuid: '', amount: '123' } }
@@ -156,7 +157,7 @@ RSpec.describe "Transactions", type: :request do
           post '/transactions/refund', params: params, headers: { 'Authorization': @token }
           expect(response).to have_http_status(200)
           expect(Transaction::Refund.last.error?).to eq true
-          expect(user.reload.total_transaction_sum).to eq (10)
+          expect(user.reload.total_transaction_sum).to eq(10)
         end
       end
 
@@ -168,7 +169,7 @@ RSpec.describe "Transactions", type: :request do
           user.update_attribute(:total_transaction_sum, 20)
           post '/transactions/refund', params: params, headers: { 'Authorization': @token }
           expect(response).to have_http_status(200)
-          expect(user.reload.total_transaction_sum).to eq (10)
+          expect(user.reload.total_transaction_sum).to eq(10)
           expect(Transaction::Refund.last.approved?).to eq true
           expect(charged_t.reload.refunded?).to eq true
         end
@@ -178,7 +179,7 @@ RSpec.describe "Transactions", type: :request do
 
   describe 'POST /transactions/reverse' do
     context 'withour auth' do
-      it "returns 401 code" do
+      it 'returns 401 code' do
         post '/transactions/reverse'
         expect(response).to have_http_status(401)
       end

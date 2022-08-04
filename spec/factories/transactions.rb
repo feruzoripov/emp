@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :transaction do
     merchant { create(:user) }
@@ -16,7 +18,7 @@ FactoryBot.define do
       amount { 10.0 }
     end
 
-    factory :reversal, class:Transaction::Reversal do
+    factory :reversal, class: Transaction::Reversal do
     end
   end
 end
