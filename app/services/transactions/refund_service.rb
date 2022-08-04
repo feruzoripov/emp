@@ -15,6 +15,7 @@ module Transactions
         transaction.parent_transaction = charged_transaction
         transaction.customer_email = charged_transaction.customer_email
         transaction.customer_phone = charged_transaction.customer_phone
+        update_merchant_total_transaction_sum
       else
         transaction.status = :error
       end
@@ -33,6 +34,11 @@ module Transactions
 
     def valid_to_refund?
       charged_transaction&.approved?
+    end
+
+    def update_merchant_total_transaction_sum
+      merchant.total_transaction_sum -= amount
+      merchant.save
     end
   end
 end
